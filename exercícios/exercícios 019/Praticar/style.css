@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Matemasie&display=swap');
+
+
+
+body {
+    background-image: linear-gradient(to right,#9B1D20, black, black);
+}
+
+#principal {
+    color: rgb(255, 255, 255);
+    text-align: center;
+    text-decoration: underline;
+    background-color: #ff0000;
+    font-family:'Matemasie';
+}
+
+.etapa1  {
+    color: #ffffff;
+
+}
+
+.etapa2 {
+    color: darkblue;
+}
+
+.etapa3 {
+    color: blueviolet;
+}
+
+.etapa4 {
+    color: chartreuse;
+}
+
+.etapa5 {
+    color: aqua;
+}
+
+ul {
+    color: aliceblue;
+}
+
+p {
+    color: aliceblue;
+}

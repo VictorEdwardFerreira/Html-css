@@ -1,0 +1,165 @@
+@font-face {
+    font-family:vini ;
+    src: url(projeto/fontes/idroid.otf) format('opentype');
+}
+
+
+
+
+
+:root {
+ --cor01: #ebe5c5;
+ --cor02: #83e1ad;
+ --cor03: #3ddc84;
+ --cor04: #2fa866;
+ --cor05: #1a5c37;
+ --cor06: #063d1e;
+
+}
+
+* {
+    margin: 0px ;
+    padding: 0px;
+}
+
+body {
+    background-color:  var(--cor01);
+}
+
+header {
+   background-color: #063d1e;
+   min-height: 170px;
+   text-align: center;
+   color: white;
+   padding: 20px;
+   
+
+}
+
+nav {
+    margin-top: -19px;
+    
+}
+
+
+
+nav >a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+     transition-duration: 1s;
+     border-radius: 4px;
+}
+
+nav >a:hover {
+    background-color: #3ddc84;
+}
+
+main {
+    min-width: 300px;
+    max-width: 790px;
+    padding: 20px;
+    margin-bottom: 30px;
+    margin: auto;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.393);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px
+    
+}
+
+main h1 {
+    font-family: 'vini';
+    color: var(--cor06);
+    text-align: center;
+}
+
+main h2 {
+    font-family: 'vini';
+    color: var(--cor06);
+    background-image: linear-gradient(to right, #83e1ad, transparent);
+     text-indent: 20px;
+    
+}
+
+main p {
+    text-indent: 20px;
+    margin: 15px;
+    text-align: justify;
+    font-size: 1em;
+    line-height: 2em;
+}
+
+
+strong {
+    background-color: var(--cor04);
+    font-weight: bold;
+
+}
+
+img {
+    max-width: 100%;
+}
+
+.link >a {
+    color: var(--cor04);
+    text-decoration: none;
+
+}
+
+.link >a::after {
+    content: '🔗';
+    
+}
+
+
+
+.link >a:hover {
+    transition-duration: 1s;
+}
+
+.Extra {
+   background-color: var(--cor02);
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 3px 3px 8px black;
+    
+}
+
+.Video {
+    background-color: var(--cor06);
+    margin: 0px -20px 30px -20px;
+    padding: 20px;
+    padding-bottom: 60.50%;
+    position: relative;
+}
+
+.Video > iframe {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    height: 90% ;
+}
+
+
+aside > ul {
+    list-style-position: inside;
+    columns: 2;
+}
+
+aside > h3 {
+    background-color: var(--cor04);
+    color: white;
+    padding: 5px;
+    margin: -20px -20px 0px -20px;
+    border-radius: 10px 10px 0px 0px;
+    text-align: center;
+}
+
+
+footer  {
+    background-color: var(--cor05);
+    color: white;
+    text-align: center;
+}

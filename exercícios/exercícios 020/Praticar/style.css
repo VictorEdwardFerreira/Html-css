@@ -1,0 +1,64 @@
+p {
+    font-style: italic;
+    font-weight: bolder;
+    font-size: 16px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 10em;
+    font-style: italic;
+    
+}
+
+.tp1 {
+    border: 1px solid blueviolet;
+    width: 200px;
+    height: 200px;
+    
+}
+
+.tp1:hover {
+    background-color: blue;
+
+}
+
+
+
+.tp2 {
+    border: 1px solid blueviolet ;
+    width: 200px;
+    height: 200px;
+}
+
+.tp2:hover {
+    background-color: blue;
+
+}
+
+
+
+.tp3 {
+    border: 1px solid blueviolet;
+    width: 200px;
+    height: 200px;
+}
+
+.tp3:hover {
+    background-color: blue;
+
+}
+
+.tp4 > p {
+    display: none;
+}
+
+.tp4:hover > p {
+    display: block;
+}
+
+.tp4 {
+    border: 1px solid blueviolet;
+    width: 200px;
+    height: 200px;
+}

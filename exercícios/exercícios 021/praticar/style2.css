@@ -1,0 +1,52 @@
+body {
+    background-color: rgb(12, 12, 12);
+}
+
+header {
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+}
+
+main {
+    color: aliceblue;
+    padding: 90px;
+    margin: 90px;
+}
+
+footer {
+    background-color: rgb(255, 255, 255);
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+}
+
+nav {
+    background-color: rgba(241, 241, 241, 0.219);
+    padding: 10px;
+    margin: 10px;
+    
+}
+
+a {
+    padding: 10px;
+    margin: 10px;
+    color: black;
+    text-decoration: underline;
+
+}
+
+
+.link {
+    color: rgb(235, 30, 30);
+}
+
+h1 {
+    color: blue;
+}
+
+h2 {
+    color: brown;
+}

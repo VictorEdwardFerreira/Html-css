@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Victor Edward | Full Stack & Bot Dev</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#050508;
+--bg2:#0a0a12;
+--bg3:#0f0f1a;
+--purple:#7C3AED;
+--cyan:#06B6D4;
+--green:#10F5A8;
+--white:#f0f0ff;
+--muted:#8888aa;
+--card:#0e0e1c;
+--border:rgba(124,58,237,0.25);
+}
+html{scroll-behavior:smooth}
+body{
+background:var(--bg);
+color:var(--white);
+font-family:'Inter',sans-serif;
+overflow-x:hidden;
+cursor:none;
+}
+#cursor{position:fixed;width:10px;height:10px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s;mix-blend-mode:screen}
+#cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(6,182,212,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .18s ease;mix-blend-mode:screen}
+#particles-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.35}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 3rem;display:flex;justify-content:space-between;align-items:center;background:rgba(5,5,8,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:900;letter-spacing:0.1em;background:linear-gradient(90deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.85rem;letter-spacing:.08em;transition:color .2s;text-transform:uppercase}
+.nav-links a:hover{color:var(--cyan)}
+#hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:6rem 3rem 4rem;z-index:1}
+.hero-inner{max-width:900px;text-align:center}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--cyan);letter-spacing:.2em;margin-bottom:1.5rem;opacity:0;animation:fadeUp .6s .2s forwards}
+.hero-name{font-family:'Orbitron',monospace;font-size:clamp(2.8rem,7vw,6rem);font-weight:900;line-height:1.05;letter-spacing:-.01em;margin-bottom:1rem;opacity:0;animation:fadeUp .7s .4s forwards}
+.hero-name .accent{background:linear-gradient(135deg,var(--purple),var(--cyan),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-title{font-family:'JetBrains Mono',monospace;font-size:clamp(1rem,2.5vw,1.4rem);color:var(--muted);margin-bottom:2rem;opacity:0;animation:fadeUp .7s .6s forwards;min-height:2rem}
+.hero-desc{font-size:1rem;color:var(--muted);line-height:1.8;max-width:600px;margin:0 auto 2.5rem;opacity:0;animation:fadeUp .7s .8s forwards}
+.hero-ctas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeUp .7s 1s forwards}
+.btn{padding:.75rem 2rem;border-radius:8px;font-size:.9rem;font-weight:600;text-decoration:none;letter-spacing:.05em;transition:all .2s;cursor:none;display:inline-block}
+.btn-primary{background:linear-gradient(135deg,var(--purple),var(--cyan));color:#fff;border:none}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,58,237,.5)}
+.btn-outline{background:transparent;color:var(--cyan);border:1.5px solid var(--cyan)}
+.btn-outline:hover{background:rgba(6,182,212,.08);transform:translateY(-2px)}
+.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:var(--muted);font-size:.75rem;letter-spacing:.1em;opacity:0;animation:fadeIn 1s 2s forwards}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--cyan),transparent);animation:scrollPulse 1.8s ease-in-out infinite}
+#stats{position:relative;z-index:1;padding:5rem 3rem;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stats-grid{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem}
+.stat-item{text-align:center}
+.stat-num{font-family:'Orbitron',monospace;font-size:2.8rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+.stat-label{font-size:.8rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:.4rem}
+section{position:relative;z-index:1;padding:6rem 3rem}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-tag{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--cyan);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.75rem;display:block}
+.section-title{font-family:'Orbitron',monospace;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;margin-bottom:1rem}
+.section-sub{color:var(--muted);line-height:1.8;max-width:600px;margin-bottom:3.5rem;font-size:.95rem}
+#skills{background:var(--bg)}
+.skills-blocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.skill-block{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.75rem;transition:border-color .3s,transform .3s}
+.skill-block:hover{border-color:var(--purple);transform:translateY(-4px)}
+.skill-block-icon{font-size:2rem;margin-bottom:1rem}
+.skill-block-name{font-family:'Orbitron',monospace;font-size:.95rem;font-weight:700;color:var(--white);margin-bottom:1.2rem}
+.skill-tags{display:flex;flex-wrap:wrap;gap:.5rem}
+.skill-tag{background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.3);color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:.75rem;padding:.3rem .7rem;border-radius:6px;transition:all .2s}
+.skill-tag:hover{background:rgba(6,182,212,.12);border-color:var(--cyan);color:var(--cyan)}
+.skill-bar-wrap{margin-top:1.2rem}
+.skill-bar-label{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);margin-bottom:.4rem}
+.skill-bar{height:4px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden}
+.skill-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--purple),var(--cyan));width:0;transition:width 1.4s ease}
+#projects{background:var(--bg2)}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1.5rem}
+.project-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:transform .3s,border-color .3s}
+.project-card:hover{transform:translateY(-6px);border-color:var(--cyan)}
+.project-header{padding:1.5rem 1.5rem .75rem;display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem}
+.project-badge{font-family:'JetBrains Mono',monospace;font-size:.7rem;padding:.3rem .7rem;border-radius:20px;font-weight:600}
+.badge-bot{background:rgba(16,245,168,.12);color:var(--green);border:1px solid rgba(16,245,168,.3)}
+.badge-web{background:rgba(124,58,237,.12);color:#a78bfa;border:1px solid rgba(124,58,237,.3)}
+.badge-api{background:rgba(6,182,212,.12);color:var(--cyan);border:1px solid rgba(6,182,212,.3)}
+.badge-ai{background:rgba(245,158,11,.12);color:#fbbf24;border:1px solid rgba(245,158,11,.3)}
+.project-icon-big{font-size:1.8rem}
+.project-body{padding:.75rem 1.5rem 1.5rem}
+.project-name{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;margin-bottom:.6rem}
+.project-desc{font-size:.85rem;color:var(--muted);line-height:1.7;margin-bottom:1rem}
+.project-stack{display:flex;flex-wrap:wrap;gap:.4rem}
+.stack-tag{font-family:'JetBrains Mono',monospace;font-size:.7rem;background:rgba(255,255,255,.05);color:var(--muted);padding:.2rem .55rem;border-radius:5px}
+.project-links{padding:.75rem 1.5rem 1.25rem;border-top:1px solid var(--border);display:flex;gap:.75rem}
+.project-link{font-size:.78rem;color:var(--cyan);text-decoration:none;display:flex;align-items:center;gap:.35rem;transition:opacity .2s}
+.project-link:hover{opacity:.7}
+#experience{background:var(--bg)}
+.timeline{max-width:750px;position:relative;padding-left:2rem}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--purple),var(--cyan),transparent)}
+.timeline-item{position:relative;margin-bottom:3rem;padding-left:2rem}
+.timeline-dot{position:absolute;left:-2.45rem;top:.2rem;width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--cyan);box-shadow:0 0 10px var(--cyan)}
+.timeline-date{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--cyan);letter-spacing:.1em;margin-bottom:.4rem}
+.timeline-role{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;margin-bottom:.2rem}
+.timeline-company{font-size:.85rem;color:var(--purple);font-weight:500;margin-bottom:.75rem}
+.timeline-desc{font-size:.85rem;color:var(--muted);line-height:1.75}
+#services{background:var(--bg2)}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+.service-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem;text-align:center;transition:all .3s}
+.service-card:hover{border-color:var(--green);transform:translateY(-4px);box-shadow:0 0 30px rgba(16,245,168,.07)}
+.service-icon{font-size:2.5rem;margin-bottom:1rem;display:block}
+.service-title{font-family:'Orbitron',monospace;font-size:.9rem;font-weight:700;margin-bottom:.75rem}
+.service-desc{font-size:.82rem;color:var(--muted);line-height:1.7}
+#techstack{background:var(--bg)}
+.tech-marquee-wrap{overflow:hidden;mask:linear-gradient(90deg,transparent,black 10%,black 90%,transparent)}
+.tech-marquee{display:flex;gap:1rem;animation:marquee 24s linear infinite;width:max-content}
+.tech-marquee:hover{animation-play-state:paused}
+.tech-pill{background:var(--card);border:1px solid var(--border);padding:.6rem 1.2rem;border-radius:40px;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--muted);white-space:nowrap;display:flex;align-items:center;gap:.5rem;transition:all .2s}
+.tech-pill:hover{border-color:var(--purple);color:var(--white)}
+.tech-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.dot-js{background:#f7df1e}.dot-ts{background:#3178c6}.dot-py{background:#3776ab}.dot-go{background:#00add8}.dot-node{background:#339933}.dot-react{background:#61dafb}.dot-vue{background:#4fc08d}.dot-next{background:#fff}.dot-docker{background:#2496ed}.dot-mongo{background:#47a248}.dot-pg{background:#336791}.dot-redis{background:#dc382d}.dot-gql{background:#e10098}.dot-k8s{background:#326ce5}.dot-aws{background:#ff9900}.dot-cf{background:#f48120}.dot-deno{background:#fff}.dot-bun{background:#fbf0df}
+#testimonials{background:var(--bg2)}
+.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.testimonial-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.75rem;position:relative}
+.testimonial-quote{font-size:3rem;line-height:1;color:var(--purple);font-family:Georgia,serif;position:absolute;top:.75rem;left:1.25rem;opacity:.5}
+.testimonial-text{font-size:.88rem;color:var(--muted);line-height:1.75;margin-bottom:1.25rem;margin-top:1.5rem}
+.testimonial-author{display:flex;align-items:center;gap:.75rem}
+.testimonial-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--cyan));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0}
+.testimonial-name{font-size:.85rem;font-weight:600}
+.testimonial-role{font-size:.75rem;color:var(--muted)}
+#contact{background:var(--bg);text-align:center}
+.contact-inner{max-width:650px;margin:0 auto}
+.contact-links{display:flex;justify-content:center;flex-wrap:wrap;gap:1rem;margin-top:2.5rem}
+.contact-link{display:flex;align-items:center;gap:.6rem;padding:.75rem 1.5rem;border-radius:10px;background:var(--card);border:1px solid var(--border);color:var(--muted);text-decoration:none;font-size:.85rem;transition:all .2s;font-family:'JetBrains Mono',monospace}
+.contact-link:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-2px)}
+.contact-link svg{width:18px;height:18px;flex-shrink:0}
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:2.5rem 3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;z-index:1;position:relative}
+.footer-logo{font-family:'Orbitron',monospace;font-size:.9rem;font-weight:900;background:linear-gradient(90deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.footer-copy{font-size:.78rem;color:var(--muted)}
+.glitch{position:relative}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;font-family:'Orbitron',monospace;font-size:inherit;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--cyan),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.glitch::before{left:2px;top:-1px;animation:glitch1 3.5s infinite;clip-path:polygon(0 0,100% 0,100% 35%,0 35%)}
+.glitch::after{left:-2px;top:1px;animation:glitch2 3.5s infinite;clip-path:polygon(0 65%,100% 65%,100% 100%,0 100%)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scrollPulse{0%,100%{opacity:.3;transform:scaleY(.8)}50%{opacity:1;transform:scaleY(1)}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes glitch1{0%,95%{transform:translate(0)}96%{transform:translate(2px,-1px)}97%{transform:translate(-2px,1px)}98%{transform:translate(1px,0)}100%{transform:translate(0)}}
+@keyframes glitch2{0%,95%{transform:translate(0)}96%{transform:translate(-2px,1px)}97%{transform:translate(2px,-1px)}98%{transform:translate(0,1px)}100%{transform:translate(0)}}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+@media(max-width:768px){
+nav{padding:1rem 1.5rem}
+.nav-links{display:none}
+section{padding:4rem 1.5rem}
+#hero{padding:5rem 1.5rem 3rem}
+footer{padding:1.5rem;flex-direction:column;text-align:center}
+.timeline{padding-left:1.5rem}
+.timeline-item{padding-left:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<canvas id="particles-canvas"></canvas>
+
+<nav>
+  <div class="nav-logo">VE_DEV</div>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projetos</a></li>
+    <li><a href="#experience">Experiência</a></li>
+    <li><a href="#services">Serviços</a></li>
+    <li><a href="#contact">Contato</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">// disponível para novos projetos</div>
+    <h1 class="hero-name glitch" data-text="Victor Edward">
+      <span class="accent">Victor Edward</span>
+    </h1>
+    <div class="hero-title" id="typed-title"></div>
+    <p class="hero-desc">Desenvolvedor Full Stack & especialista em bots automatizados. Transformo ideias complexas em soluções elegantes — do backend robusto ao front impecável, passando por bots que nunca dormem.</p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn btn-primary">Ver Projetos</a>
+      <a href="#contact" class="btn btn-outline">Entrar em contato</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>SCROLL</span>
+  </div>
+</section>
+
+<div id="stats">
+  <div class="stats-grid reveal">
+    <div class="stat-item">
+      <div class="stat-num counter" data-target="50">0</div>
+      <div class="stat-label">Projetos entregues</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num counter" data-target="30">0</div>
+      <div class="stat-label">Clientes satisfeitos</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num counter" data-target="5">0</div>
+      <div class="stat-label">Anos de experiência</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" style="font-size:2rem">99.9%</div>
+      <div class="stat-label">Uptime dos bots</div>
+    </div>
+  </div>
+</div>
+
+<section id="skills">
+  <div class="section-inner">
+    <span class="section-tag reveal">// habilidades</span>
+    <h2 class="section-title reveal">Stack técnico completo</h2>
+    <p class="section-sub reveal">Do banco de dados ao deploy, domino o ecossistema completo de desenvolvimento moderno.</p>
+    <div class="skills-blocks">
+      <div class="skill-block reveal">
+        <div class="skill-block-icon">🖥️</div>
+        <div class="skill-block-name">Frontend</div>
+        <div class="skill-tags">
+          <span class="skill-tag">React</span><span class="skill-tag">Next.js</span><span class="skill-tag">Vue.js</span>
+          <span class="skill-tag">TypeScript</span><span class="skill-tag">Tailwind CSS</span><span class="skill-tag">Framer Motion</span>
+          <span class="skill-tag">Three.js</span><span class="skill-tag">GSAP</span><span class="skill-tag">Svelte</span>
+        </div>
+        <div class="skill-bar-wrap">
+          <div class="skill-bar-label"><span>Proficiência</span><span>92%</span></div>
+          <div class="skill-bar"><div class="skill-bar-fill" data-width="92"></div></div>
+        </div>
+      </div>
+      <div class="skill-block reveal">
+        <div class="skill-block-icon">⚙️</div>
+        <div class="skill-block-name">Backend</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Node.js</span><span class="skill-tag">Python</span><span class="skill-tag">Go</span>
+          <span class="skill-tag">Express</span><span class="skill-tag">Fastify</span><span class="skill-tag">FastAPI</span>
+          <span class="skill-tag">Django</span><span class="skill-tag">Nest.js</span><span class="skill-tag">GraphQL</span>
+        </div>
+        <div class="skill-bar-wrap">
+          <div class="skill-bar-label"><span>Proficiência</span><span>95%</span></div>
+          <div class="skill-bar"><div class="skill-bar-fill" data-width="95"></div></div>
+        </div>
+      </div>
+      <div class="skill-block reveal">
+        <div class="skill-block-icon">🤖</div>
+        <div class="skill-block-name">Bots & Automação</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Discord.js</span><span class="skill-tag">Telegram Bot API</span><span class="skill-tag">WhatsApp</span>
+          <span class="skill-tag">Puppeteer</span><span class="skill-tag">Playwright</span><span class="skill-tag">Selenium</span>
+          <span class="skill-tag">n8n</span><span class="skill-tag">Zapier</span><span class="skill-tag">Make</span>
+        </div>
+        <div class="skill-bar-wrap">
+          <div class="skill-bar-label"><span>Proficiência</span><span>98%</span></div>
+          <div class="skill-bar"><div class="skill-bar-fill" data-width="98"></div></div>
+        </div>
+      </div>
+      <div class="skill-block reveal">
+        <div class="skill-block-icon">🗄️</div>
+        <div class="skill-block-name">Banco de Dados</div>
+        <div class="skill-tags">
+          <span class="skill-tag">PostgreSQL</span><span class="skill-tag">MongoDB</span><span class="skill-tag">Redis</span>
+          <span class="skill-tag">MySQL</span><span class="skill-tag">Supabase</span><span class="skill-tag">PlanetScale</span>
+          <span class="skill-tag">Firebase</span><span class="skill-tag">Prisma</span><span class="skill-tag">Drizzle</span>
+        </div>
+        <div class="skill-bar-wrap">
+          <div class="skill-bar-label"><span>Proficiência</span><span>90%</span></div>
+          <div class="skill-bar"><div class="skill-bar-fill" data-width="90"></div></div>
+        </div>
+      </div>
+      <div class="skill-block reveal">
+        <div class="skill-block-icon">☁️</div>
+        <div class="skill-block-name">Cloud & DevOps</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Docker</span><span class="skill-tag">Kubernetes</span><span class="skill-tag">AWS</span>
+          <span class="skill-tag">GCP</span><span class="skill-tag">Vercel</span><span class="skill-tag">CI/CD</span>
+          <span class="skill-tag">Nginx</span><span class="skill-tag">Terraform</span><span class="skill-tag">Linux</span>
+        </div>
+        <div class="skill-bar-wrap">
+          <div class="skill-bar-label"><span>Proficiência</span><span>87%</span></div>
+          <div class="skill-bar"><div class="skill-bar-fill" data-width="87"></div></div>
+        </div>
+      </div>
+      <div class="skill-block reveal">
+        <div class="skill-block-icon">🧠</div>
+        <div class="skill-block-name">IA & Machine Learning</div>
+        <div class="skill-tags">
+          <span class="skill-tag">OpenAI API</span><span class="skill-tag">LangChain</span><span class="skill-tag">HuggingFace</span>
+          <span class="skill-tag">Pinecone</span><span class="skill-tag">RAG</span><span class="skill-tag">Fine-tuning</span>
+          <span class="skill-tag">Whisper</span><span class="skill-tag">Stable Diffusion</span><span class="skill-tag">Ollama</span>
+        </div>
+        <div class="skill-bar-wrap">
+          <div class="skill-bar-label"><span>Proficiência</span><span>85%</span></div>
+          <div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-inner">
+    <span class="section-tag reveal">// projetos</span>
+    <h2 class="section-title reveal">Trabalhos em destaque</h2>
+    <p class="section-sub reveal">Soluções reais entregues com qualidade, performance e atenção ao detalhe.</p>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <div class="project-header"><span class="project-icon-big">🤖</span><span class="project-badge badge-bot">BOT</span></div>
+        <div class="project-body">
+          <div class="project-name">NekoBot Pro</div>
+          <div class="project-desc">Bot multifuncional para Discord com sistema de moderação avançada, ranking de XP, músicas, jogos e integração com OpenAI para respostas inteligentes em tempo real.</div>
+          <div class="project-stack"><span class="stack-tag">Discord.js</span><span class="stack-tag">Node.js</span><span class="stack-tag">MongoDB</span><span class="stack-tag">OpenAI</span><span class="stack-tag">Redis</span></div>
+        </div>
+        <div class="project-links">
+          <a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>GitHub</a>
+          <a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Demo</a>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-header"><span class="project-icon-big">💬</span><span class="project-badge badge-ai">IA</span></div>
+        <div class="project-body">
+          <div class="project-name">WhatsAgent AI</div>
+          <div class="project-desc">Assistente inteligente para WhatsApp Business com atendimento automatizado 24/7, integração com CRM, análise de sentimento e escalada para atendentes humanos.</div>
+          <div class="project-stack"><span class="stack-tag">WA-Web.js</span><span class="stack-tag">Python</span><span class="stack-tag">FastAPI</span><span class="stack-tag">LangChain</span><span class="stack-tag">PgVector</span></div>
+        </div>
+        <div class="project-links">
+          <a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>GitHub</a>
+          <a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Demo</a>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-header"><span class="project-icon-big">📊</span><span class="project-badge badge-web">WEB</span></div>
+        <div class="project-body">
+          <div class="project-name">DashFlow Analytics</div>
+          <div class="project-desc">Plataforma SaaS de analytics em tempo real com dashboards customizáveis, relatórios automatizados, alertas inteligentes e integração com mais de 30 fontes de dados.</div>
+          <div class="project-stack"><span class="stack-tag">Next.js 14</span><span class="stack-tag">TypeScript</span><span class="stack-tag">Supabase</span><span class="stack-tag">Recharts</span><span class="stack-tag">Stripe</span></div>
+        </div>
+        <div class="project-links">
+          <a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>GitHub</a>
+          <a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Demo</a>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-header"><span class="project-icon-big">🔗</span><span class="project-badge badge-api">API</span></div>
+        <div class="project-body">
+          <div class="project-name">AutoScrape Engine</div>
+          <div class="project-desc">Motor de web scraping distribuído com suporte a JavaScript dinâmico, rotação de proxies, detecção de captchas, e API REST para extração de dados em escala.</div>
+          <div class="project-stack"><span class="stack-tag">Go</span><span class="stack-tag">Playwright</span><span class="stack-tag">Redis</span><span class="stack-tag">Docker</span><span class="stack-tag">Kafka</span></div>
+        </div>
+        <div class="project-links">
+          <a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>GitHub</a>
+          <a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Docs</a>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-header"><span class="project-icon-big">🎮</span><span class="project-badge badge-bot">BOT</span></div>
+        <div class="project-body">
+          <div class="project-name">Telegram GameBot</div>
+          <div class="project-desc">Bot de jogos para Telegram com economia virtual, quests diárias, sistema de clãs, mercado P2P de itens e integração com pagamentos Pix via Mercado Pago.</div>
+          <div class="project-stack"><span class="stack-tag">Python</span><span class="stack-tag">Pyrogram</span><span class="stack-tag">PostgreSQL</span><span class="stack-tag">Redis</span><span class="stack-tag">MP API</span></div>
+        </div>
+        <div class="project-links">
+          <a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>GitHub</a>
+          <a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Demo</a>
+        </div>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-header"><span class="project-icon-big">🛒</span><span class="project-badge badge-web">WEB</span></div>
+        <div class="project-body">
+          <div class="project-name">ShopCore Platform</div>
+          <div class="project-desc">E-commerce headless completo com CMS customizável, checkout ultrarrápido, sistema de afiliados, cupons inteligentes e painel admin com BI integrado.</div>
+          <div class="project-stack"><span class="stack-tag">Next.js</span><span class="stack-tag">Medusa.js</span><span class="stack-tag">Stripe</span><span class="stack-tag">Sanity</span><span class="stack-tag">Vercel</span></div>
+        </div>
+        <div class="project-links">
+          <a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>GitHub</a>
+          <a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Demo</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="section-inner">
+    <span class="section-tag reveal">// experiência</span>
+    <h2 class="section-title reveal">Trajetória profissional</h2>
+    <p class="section-sub reveal">Cinco anos construindo produtos digitais que realmente funcionam e escalam.</p>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2024 — Presente</div>
+        <div class="timeline-role">Senior Full Stack Developer</div>
+        <div class="timeline-company">Freelancer / Projetos próprios</div>
+        <div class="timeline-desc">Desenvolvimento de sistemas SaaS, bots de automação complexos e APIs de alta performance. Atuo com clientes nacionais e internacionais entregando soluções escaláveis e bem documentadas.</div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2022 — 2024</div>
+        <div class="timeline-role">Bot Developer & Backend Engineer</div>
+        <div class="timeline-company">TechBots Studio</div>
+        <div class="timeline-desc">Liderança no desenvolvimento de bots para Discord e Telegram com bases de usuários acima de 100k. Arquitetura de sistemas de cache com Redis e pipelines de processamento assíncrono com Bull.</div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2021 — 2022</div>
+        <div class="timeline-role">Full Stack Developer Jr</div>
+        <div class="timeline-company">StartupBR</div>
+        <div class="timeline-desc">Desenvolvimento de features no produto principal (React + Node), criação de automações internas e integração com APIs de terceiros. Contribuição ativa para cultura DevOps da empresa.</div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2020 — 2021</div>
+        <div class="timeline-role">Desenvolvedor iniciante</div>
+        <div class="timeline-company">Projetos pessoais & comunidade</div>
+        <div class="timeline-desc">Primeiros bots para Discord, sites estáticos e scripts de automação. Construção de uma base sólida em lógica de programação, estrutura de dados e consumo de APIs REST.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="section-inner">
+    <span class="section-tag reveal">// serviços</span>
+    <h2 class="section-title reveal">O que eu entrego</h2>
+    <p class="section-sub reveal">Soluções sob medida para quem quer resultado, não só código.</p>
+    <div class="services-grid">
+      <div class="service-card reveal"><span class="service-icon">🤖</span><div class="service-title">Bots & Automação</div><div class="service-desc">Discord, Telegram, WhatsApp e mais. Bots com lógica complexa, sistemas de moderação, economia virtual e integração com qualquer API.</div></div>
+      <div class="service-card reveal"><span class="service-icon">🌐</span><div class="service-title">Aplicações Web</div><div class="service-desc">Sites, landing pages e sistemas web completos. Desde marketing sites rápidos até SaaS com autenticação, pagamentos e painel admin.</div></div>
+      <div class="service-card reveal"><span class="service-icon">⚡</span><div class="service-title">APIs & Integrações</div><div class="service-desc">APIs REST e GraphQL robustas, integração entre sistemas, webhooks, e pipelines de dados para conectar suas ferramentas.</div></div>
+      <div class="service-card reveal"><span class="service-icon">🧠</span><div class="service-title">IA & Chatbots</div><div class="service-desc">Chatbots com LLMs, agentes autônomos com LangChain, sistemas RAG com base de conhecimento customizada e fine-tuning de modelos.</div></div>
+      <div class="service-card reveal"><span class="service-icon">🔍</span><div class="service-title">Web Scraping</div><div class="service-desc">Extração de dados em larga escala com bypass de proteções, rotação de proxies e entrega dos dados em banco ou planilha.</div></div>
+      <div class="service-card reveal"><span class="service-icon">🚀</span><div class="service-title">DevOps & Deploy</div><div class="service-desc">Containerização com Docker, CI/CD pipelines, configuração de VPS, monitoramento e garantia de uptime alto para seus sistemas.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="techstack" style="padding:5rem 0">
+  <div class="section-inner" style="padding:0 3rem;margin-bottom:2rem">
+    <span class="section-tag reveal">// tecnologias</span>
+    <h2 class="section-title reveal">Arsenal completo</h2>
+  </div>
+  <div class="tech-marquee-wrap">
+    <div class="tech-marquee">
+      <div class="tech-pill"><div class="tech-dot dot-js"></div>JavaScript</div>
+      <div class="tech-pill"><div class="tech-dot dot-ts"></div>TypeScript</div>
+      <div class="tech-pill"><div class="tech-dot dot-py"></div>Python</div>
+      <div class="tech-pill"><div class="tech-dot dot-go"></div>Golang</div>
+      <div class="tech-pill"><div class="tech-dot dot-node"></div>Node.js</div>
+      <div class="tech-pill"><div class="tech-dot dot-react"></div>React</div>
+      <div class="tech-pill"><div class="tech-dot dot-vue"></div>Vue.js</div>
+      <div class="tech-pill"><div class="tech-dot dot-next"></div>Next.js</div>
+      <div class="tech-pill"><div class="tech-dot dot-docker"></div>Docker</div>
+      <div class="tech-pill"><div class="tech-dot dot-mongo"></div>MongoDB</div>
+      <div class="tech-pill"><div class="tech-dot dot-pg"></div>PostgreSQL</div>
+      <div class="tech-pill"><div class="tech-dot dot-redis"></div>Redis</div>
+      <div class="tech-pill"><div class="tech-dot dot-gql"></div>GraphQL</div>
+      <div class="tech-pill"><div class="tech-dot dot-k8s"></div>Kubernetes</div>
+      <div class="tech-pill"><div class="tech-dot dot-aws"></div>AWS</div>
+      <div class="tech-pill"><div class="tech-dot dot-cf"></div>Cloudflare</div>
+      <div class="tech-pill"><div class="tech-dot dot-bun"></div>Bun</div>
+      <div class="tech-pill"><div class="tech-dot dot-deno"></div>Deno</div>
+      <!-- duplicado para loop infinito -->
+      <div class="tech-pill"><div class="tech-dot dot-js"></div>JavaScript</div>
+      <div class="tech-pill"><div class="tech-dot dot-ts"></div>TypeScript</div>
+      <div class="tech-pill"><div class="tech-dot dot-py"></div>Python</div>
+      <div class="tech-pill"><div class="tech-dot dot-go"></div>Golang</div>
+      <div class="tech-pill"><div class="tech-dot dot-node"></div>Node.js</div>
+      <div class="tech-pill"><div class="tech-dot dot-react"></div>React</div>
+      <div class="tech-pill"><div class="tech-dot dot-vue"></div>Vue.js</div>
+      <div class="tech-pill"><div class="tech-dot dot-next"></div>Next.js</div>
+      <div class="tech-pill"><div class="tech-dot dot-docker"></div>Docker</div>
+      <div class="tech-pill"><div class="tech-dot dot-mongo"></div>MongoDB</div>
+      <div class="tech-pill"><div class="tech-dot dot-pg"></div>PostgreSQL</div>
+      <div class="tech-pill"><div class="tech-dot dot-redis"></div>Redis</div>
+      <div class="tech-pill"><div class="tech-dot dot-gql"></div>GraphQL</div>
+      <div class="tech-pill"><div class="tech-dot dot-k8s"></div>Kubernetes</div>
+      <div class="tech-pill"><div class="tech-dot dot-aws"></div>AWS</div>
+      <div class="tech-pill"><div class="tech-dot dot-cf"></div>Cloudflare</div>
+      <div class="tech-pill"><div class="tech-dot dot-bun"></div>Bun</div>
+      <div class="tech-pill"><div class="tech-dot dot-deno"></div>Deno</div>
+    </div>
+  </div>
+</section>
+
+<section id="testimonials">
+  <div class="section-inner">
+    <span class="section-tag reveal">// depoimentos</span>
+    <h2 class="section-title reveal">O que dizem os clientes</h2>
+    <p class="section-sub reveal">Resultados que falam por si mesmos.</p>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="testimonial-quote">"</div>
+        <div class="testimonial-text">Victor entregou um bot de Discord que superou todas as expectativas. O sistema de moderação é robusto, e as funcionalidades de IA deixaram nosso servidor no próximo nível. Recomendo demais.</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">RL</div><div><div class="testimonial-name">Rafael Lima</div><div class="testimonial-role">Dono de comunidade, 45k membros</div></div></div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="testimonial-quote">"</div>
+        <div class="testimonial-text">Precisava de um sistema de atendimento automatizado no WhatsApp e o Victor montou tudo em menos de 2 semanas. Hoje atendemos 3x mais clientes sem contratar mais ninguém.</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">MC</div><div><div class="testimonial-name">Marina Costa</div><div class="testimonial-role">CEO, Loja Online de Moda</div></div></div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="testimonial-quote">"</div>
+        <div class="testimonial-text">Cara do nível raro — entende o negócio antes de codar. O dashboard que ele fez virou o coração da nossa startup. Código limpo, bem documentado e suporte pós-entrega impecável.</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">PS</div><div><div class="testimonial-name">Pedro Souza</div><div class="testimonial-role">CTO, FinTech startup</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-inner reveal">
+      <span class="section-tag" style="display:block;margin-bottom:.75rem">// contato</span>
+      <h2 class="section-title">Vamos construir algo<br><span style="background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent">incrível juntos?</span></h2>
+      <p style="color:var(--muted);line-height:1.8;margin-top:1rem;font-size:.95rem">Seja um bot, um sistema web ou uma API complexa — estou disponível para novos projetos.</p>
+      <div class="contact-links">
+        <a href="mailto:victor@exemplo.com" class="contact-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Email
+        </a>
+        <a href="#" class="contact-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.14 1.2 2 2 0 012.1 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l1.08-1.08a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>WhatsApp
+        </a>
+        <a href="#" class="contact-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>GitHub
+        </a>
+        <a href="#" class="contact-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>Instagram
+        </a>
+        <a href="#" class="contact-link" style="background:rgba(88,101,242,.15);border-color:rgba(88,101,242,.5);color:#818cf8">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>Discord
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Victor Edward</div>
+  <div class="footer-copy">© 2025 Victor Edward · Full Stack & Bot Dev · Feito com 💜 e muito café</div>
+</footer>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+});
+function animRing(){
+  rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+  cursorRing.style.left=rx+'px'; cursorRing.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+} animRing();
+document.querySelectorAll('a,button,.btn,.project-card,.skill-block,.service-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.transform='translate(-50%,-50%) scale(2.5)';cursorRing.style.transform='translate(-50%,-50%) scale(1.4)';cursorRing.style.borderColor='rgba(124,58,237,.8)'});
+  el.addEventListener('mouseleave',()=>{cursor.style.transform='translate(-50%,-50%) scale(1)';cursorRing.style.transform='translate(-50%,-50%) scale(1)';cursorRing.style.borderColor='rgba(6,182,212,.5)'});
+});
+
+// PARTICLES
+const canvas=document.getElementById('particles-canvas');
+const ctx=canvas.getContext('2d');
+let W=canvas.width=window.innerWidth, H=canvas.height=window.innerHeight;
+const particles=[];
+const COLORS=['#7C3AED','#06B6D4','#10F5A8'];
+for(let i=0;i<100;i++){
+  particles.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.5+.5,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,c:COLORS[Math.floor(Math.random()*3)]});
+}
+function drawParticles(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=p.c; ctx.fill();
+    p.x+=p.vx; p.y+=p.vy;
+    if(p.x<0)p.x=W; if(p.x>W)p.x=0;
+    if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+  });
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<120){
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.strokeStyle=`rgba(124,58,237,${(1-dist/120)*.3})`;
+        ctx.lineWidth=.5; ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawParticles);
+} drawParticles();
+window.addEventListener('resize',()=>{W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight});
+
+// TYPED TITLE
+const titles=['Full Stack Developer','Bot Developer','API Architect','Automation Expert','IA Integration Dev'];
+let ti=0, ci=0, isDeleting=false;
+const el=document.getElementById('typed-title');
+function type(){
+  const current=titles[ti];
+  if(!isDeleting){ el.textContent=current.slice(0,ci+1)+'█'; ci++; if(ci===current.length){setTimeout(()=>isDeleting=true,2000); setTimeout(type,100); return} }
+  else{ el.textContent=current.slice(0,ci-1)+'█'; ci--; if(ci===0){isDeleting=false; ti=(ti+1)%titles.length} }
+  setTimeout(type, isDeleting?60:100);
+}
+setTimeout(type,1400);
+
+// REVEAL ON SCROLL
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.1});
+reveals.forEach(r=>obs.observe(r));
+
+// SKILL BARS
+const bars=document.querySelectorAll('.skill-bar-fill');
+const barObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.style.width=e.target.dataset.width+'%'; barObs.unobserve(e.target)}});
+},{threshold:.3});
+bars.forEach(b=>barObs.observe(b));
+
+// COUNTERS
+const counters=document.querySelectorAll('.counter');
+const counterObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const target=+e.target.dataset.target;
+      let count=0;
+      const step=Math.ceil(target/50);
+      const timer=setInterval(()=>{
+        count=Math.min(count+step,target);
+        e.target.textContent=count+'+';
+        if(count>=target)clearInterval(timer);
+      },30);
+      counterObs.unobserve(e.target);
+    }
+  });
+},{threshold:.5});
+counters.forEach(c=>counterObs.observe(c));
+</script>
+</body>
+</html>

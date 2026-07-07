@@ -1,0 +1,18 @@
+h1 {
+    font-style: italic;
+    font-size: 10em;
+    font-weight: bolder;
+
+    color: rgb(0, 0, 0);
+   
+}
+
+body {
+    background-image: linear-gradient( to right, #F21D92, rgb(0, 0, 0));
+}
+
+p {
+    color: rgb(255, 255, 255);
+    font-style: italic;
+    font-size: 2em;
+}
